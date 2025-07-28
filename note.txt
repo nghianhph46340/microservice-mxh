@@ -1,0 +1,4 @@
+https://hub.docker.com/r/axoniq/axonserver/tags?page=1&name=2025.1.1
+docker pull axoniq/axonserver:2025.1.1
+
+axon server java -jar axonserver.jar
