@@ -1,0 +1,42 @@
+# LUẬT CHUNG
+- Luôn trả lời và comment code bằng tiếng Việt
+- Project sử dụng Axon Framework với kiến trúc Microservices trên Java
+- Kiểm tra toàn bộ project sau mỗi lần thêm/sửa/xóa code
+
+# AXON FRAMEWORK
+- Tuân thủ các best practices của Axon Framework
+- Sử dụng Event Sourcing và CQRS pattern
+- Đặt tên Command, Event, Query theo convention: [Action][Entity][Command/Event/Query]
+- Aggregate phải có @AggregateIdentifier
+- Command Handler phải có @CommandHandler
+- Event Handler phải có @EventHandler
+- Query Handler phải có @QueryHandler
+
+# MICROSERVICES
+- Mỗi service phải độc lập và có trách nhiệm rõ ràng
+- Giao tiếp giữa services thông qua Events hoặc REST API
+- Sử dụng Service Discovery (Eureka) nếu cần
+- Config tập trung với Spring Cloud Config
+- Implement Circuit Breaker pattern cho resilience
+
+# KIỂM TRA CODE
+- Verify tất cả imports còn sử dụng
+- Kiểm tra các dependency injection (@Autowired, Constructor injection)
+- Đảm bảo không có code duplicate
+- Kiểm tra exception handling đầy đủ
+- Verify các test cases vẫn pass
+- Kiểm tra configuration files (application.yml/properties)
+- Đảm bảo các Event/Command/Query được register đúng cách
+
+# CODING STANDARDS
+- Sử dụng Lombok để giảm boilerplate code
+- Tất cả các class DTO/Entity phải có Builder pattern
+- Log đầy đủ với SLF4J
+- Validate input với Bean Validation
+- Sử dụng Optional cho các giá trị có thể null
+- Immutable objects cho Events và Commands
+
+# GIT & VERSION CONTROL
+- Commit message rõ ràng bằng tiếng Việt
+- Tạo branch theo pattern: feature/[tên-tính-năng], bugfix/[tên-lỗi]
+- Review lại diff trước khi commit

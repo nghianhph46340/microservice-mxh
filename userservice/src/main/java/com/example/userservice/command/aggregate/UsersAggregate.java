@@ -67,6 +67,7 @@ public class UsersAggregate {
         this.update_at = event.getUpdate_at();
     }
 
+
     @EventSourcingHandler
     public void on(UsersUpdateEvent event) {
         this.id = event.getId();
@@ -84,3 +85,4 @@ public class UsersAggregate {
     }
 
 }
+    
