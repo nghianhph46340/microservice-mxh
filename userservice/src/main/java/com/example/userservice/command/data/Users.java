@@ -18,6 +18,7 @@ public class Users {
     private String email;
     private String password_hash;
     private String full_name;
+    private String bio;
     private String avatar_url;
     @Column(name = "created_at")
     private LocalDateTime create_at;

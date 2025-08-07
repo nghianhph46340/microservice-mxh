@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.userservice.command.command.UsersCreateCommand;
 import com.example.userservice.command.command.UsersDeleteCommand;
 import com.example.userservice.command.command.UsersUpdateCommand;
-import com.example.userservice.command.data.Users;
 import com.example.userservice.command.data.UsersRepo;
 import com.example.userservice.command.model.UsersRequest;
 
@@ -39,23 +37,25 @@ public class UserCommandController {
 
     @PostMapping("/add")
     public CompletableFuture<Object> add(@RequestBody UsersRequest entity) {
-        UsersCreateCommand command = new UsersCreateCommand();
-        command.setId(UUID.randomUUID().toString());
-        command.setUsername(entity.getUsername());
-        command.setEmail(entity.getEmail());
-        command.setPassword_hash(entity.getPassword_hash());
-        command.setFull_name(entity.getFull_name());
-        command.setAvatar_url(entity.getAvatar_url());
-        command.setCreate_at(entity.getCreate_at());
+        if (usersRepos.findByUsername(entity.getUsername()).isPresent()) {
+            return CompletableFuture.completedFuture("Error: Username already exists");
+        }
+        if (usersRepos.findByEmail(entity.getEmail()).isPresent()) {
+            return CompletableFuture.completedFuture("Error: Email already exists");
+        }
+
+        UsersCreateCommand command = UsersCreateCommand.builder()
+                .id(UUID.randomUUID().toString())
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .password_hash(entity.getPassword_hash())
+                .full_name(entity.getFull_name())
+                .bio(entity.getBio())
+                .avatar_url(entity.getAvatar_url())
+                .create_at(entity.getCreate_at())
+                .build();
         logger.info("Sending UsersCreateCommand: " + command.getId());
         return commandGateway.send(command);
-    }
-    @PostMapping("/addthem")
-    public Users them(@RequestBody UsersRequest entity) {
-        Users users = new Users();
-        BeanUtils.copyProperties(entity, users);
-        usersRepos.save(users);
-        return users;
     }
     @PutMapping("/update/{id}")
     public CompletableFuture<Object> putMethodName(@PathVariable String id, @RequestBody UsersRequest entity) {

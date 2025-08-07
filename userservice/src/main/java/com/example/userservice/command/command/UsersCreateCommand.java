@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UsersCreateCommand {
     @TargetAggregateIdentifier
     private String id;
@@ -14,8 +16,8 @@ public class UsersCreateCommand {
     private String email;
     private String password_hash;
     private String full_name;
+    private String bio;
     private String avatar_url;
     private LocalDateTime create_at;
     private LocalDateTime update_at;
-
 }

@@ -26,6 +26,7 @@ public class UsersAggregate {
     private String email;
     private String password_hash;
     private String full_name;
+    private String bio;
     private String avatar_url;
     private LocalDateTime create_at;
     private LocalDateTime update_at;
@@ -36,6 +37,12 @@ public class UsersAggregate {
 
     @CommandHandler
     public UsersAggregate(UsersCreateCommand command) {
+        if (command.getUsername() == null || command.getUsername().isBlank()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (command.getEmail() == null || command.getEmail().isBlank()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
         UsersCreateEvent usersCreateEvent = new UsersCreateEvent();
         BeanUtils.copyProperties(command, usersCreateEvent);
         AggregateLifecycle.apply(usersCreateEvent);
@@ -62,6 +69,7 @@ public class UsersAggregate {
         this.email = event.getEmail();
         this.password_hash = event.getPassword_hash();
         this.full_name = event.getFull_name();
+        this.bio = event.getBio();
         this.avatar_url = event.getAvatar_url();
         this.create_at = event.getCreate_at();
         this.update_at = event.getUpdate_at();
@@ -85,4 +93,3 @@ public class UsersAggregate {
     }
 
 }
-    

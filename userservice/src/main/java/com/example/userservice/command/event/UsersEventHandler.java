@@ -11,8 +11,8 @@ import com.example.userservice.command.data.Users;
 import com.example.userservice.command.data.UsersRepo;
 
 @Component
-public class UsersHanlerEvent {
-    private static final Logger logger = Logger.getLogger(UsersHanlerEvent.class.getName());
+public class UsersEventHandler {
+    private static final Logger logger = Logger.getLogger(UsersEventHandler.class.getName());
     @Autowired
     private UsersRepo usersRepo;
 
