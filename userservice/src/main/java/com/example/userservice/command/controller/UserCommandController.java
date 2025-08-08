@@ -30,7 +30,7 @@ public class UserCommandController {
     private CommandGateway commandGateway;
     @Autowired
     private UsersRepo usersRepos;
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public String getMethodName() {
         return "Hello, " + "!";
     }

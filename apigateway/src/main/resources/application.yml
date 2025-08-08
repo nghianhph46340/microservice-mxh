@@ -1,0 +1,44 @@
+# Cấu hình cổng cho server API Gateway
+server:
+  port: 9000
+
+# Cấu hình Spring Boot
+spring:
+  application:
+    name: apigateway # Tên của service này khi đăng ký với Eureka
+  cloud:
+    gateway:
+      # Cấu hình CORS toàn cục để cho phép các ứng dụng frontend truy cập
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*" # Cho phép tất cả các domain
+            allowedMethods: # Các phương thức được cho phép
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*" # Cho phép tất cả các header
+      routes:
+        # Định tuyến cho Users Service
+        - id: userservice-route
+          uri: http://localhost:9001 # Địa chỉ của Users Service
+          predicates:
+            - Path=/api/v1/users/** # Tất cả request có đường dẫn /api/v1/users/** sẽ được chuyển đến USERSERVICE
+
+        # Định tuyến cho Posts Service
+        - id: postsservice-route
+          uri: lb://POSTSSERVICE # Gateway sẽ tự động tìm POSTSSERVICE trên Eureka
+          predicates:
+            - Path=/api/v1/posts/** # Tất cả request có đường dẫn /api/v1/posts/** sẽ được chuyển đến POSTSSERVICE
+
+# Cấu hình Eureka Client
+# eureka:
+#   client:
+#     service-url:
+#       defaultZone: http://localhost:8761/eureka # Địa chỉ của Eureka Server
+#     register-with-eureka: true
+#     fetch-registry: true
+#   instance:
+#     hostname: localhost
